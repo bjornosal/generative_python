@@ -1,9 +1,8 @@
 from random import randint
-# Size Parameters
-width = 8000
-height =  6000
+import time 
+width = 6000
+height =  8000
 
-# Circle Size
 square_size = 260
 margin = 20
 
@@ -54,7 +53,7 @@ def setup():
 
     
     # max_amount_on_line = (max_width/2)/square_size
-    max_amount_on_line = 6
+    max_amount_on_line = 2
     amount_on_line = 0
     
     x = get_start_position(max_amount_on_line)
@@ -93,6 +92,5 @@ def setup():
         popMatrix();
         x = x + square_size + margin
         
-        
-    seed = int(random(10000))
-    save("results/"+file_name+"-" + str(seed) + ".png")
+    
+    save("results/"+file_name+"-" + str(time.time()) + ".png")
