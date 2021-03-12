@@ -1,4 +1,5 @@
 import time 
+from random import randint
 # Size Parameters
 w, h = 600, 800
 
@@ -11,27 +12,8 @@ cs = 40
 #bottom = 1 - no color
 # more color /grading as you move away from starting circle
 # More circles as you get further away
-def setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {
-
-  noFill();
-
-  if (axis == Y_AXIS) {  // Top to bottom gradient
-    for (int i = y; i <= y+h; i++) {
-      float inter = map(i, y, y+h, 0, 1);
-      color c = lerpColor(c1, c2, inter);
-      stroke(c);
-      line(x, i, x+w, i);
-    }
-  }  
-  else if (axis == X_AXIS) {  // Left to right gradient
-    for (int i = x; i <= x+w; i++) {
-      float inter = map(i, x, x+w, 0, 1);
-      color c = lerpColor(c1, c2, inter);
-      stroke(c);
-      line(i, y, i, y+h);
-    }
-  
-
+color_palette_9 = ["#EAF0CE", "#FF934F", "#58A4B0" ]
+color_palette = color_palette_9
 def setup():
     size(w, h)
     
@@ -49,7 +31,7 @@ def setup():
     # Draw Circle
     stroke(30, 30, 30)
 
-    fill(0,0,0)
+    fill(0,0,0,20)
     circle(start_x, start_y, cs)
     
     y_loc_start = h-h/6
@@ -59,6 +41,7 @@ def setup():
     
     amount_per_line = 1
     drawn = 0
+    col_alpha = 20
     # doble antall per 'linje'
     # fjerne 1/2 sirkel-størrelse per linje
     
@@ -71,14 +54,15 @@ def setup():
             x_loc_start -= cs
             x_loc_end += cs
             
-            if(x_loc_start < 0): 
-                x_loc_start = 0
+            if(x_loc_start < 40): 
+                x_loc_start = 40
                 
-            if(x_loc_end > w): 
-                x_loc_end = w
+            if(x_loc_end > w-40): 
+                x_loc_end = w-40
                 
             drawn = 0
             amount_per_line += 1
+            col_alpha += 15
         
         center_x = random(x_loc_start, x_loc_end)
         center_y = random(y_loc_start, y_loc_end)
@@ -89,8 +73,11 @@ def setup():
 
         # Draw Circle
         stroke(30, 30, 30)
-        #fill(random(0, 255), random(0, 255), random(0, 255), random(100, 255))
-        #fill(random(150, 255), random(200, 255), random(185, 255), random(0, 115))
+        # Random color out of color scheme + increase alpha
+        col = color_palette[randint(0, len(color_palette)-1)]
+        rgb = tuple(int(col.lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
+        print(rgb)
+        fill(rgb[0], rgb[1], rgb[2], col_alpha)
         circle(center_x, center_y, cs)
         drawn += 1
         
