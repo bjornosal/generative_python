@@ -1,7 +1,7 @@
 import time 
 from random import randint
 # Size Parameters
-w, h = 600, 800
+w, h = 800, 600
 
 # Circle Size
 cs = 40
@@ -13,7 +13,19 @@ cs = 40
 # more color /grading as you move away from starting circle
 # More circles as you get further away
 color_palette_9 = ["#EAF0CE", "#FF934F", "#58A4B0" ]
-color_palette = color_palette_9
+color_palette_old_image = ["#cc7722","#800000","#03300","#002266"]
+roygbiv_warm = [
+      '#705f84',
+      '#687d99',
+      '#6c843e',
+      '#fc9a1a',
+      '#dc383a',
+      #'#aa3a33',
+      '#9c4257'
+    ]
+
+color_palette = roygbiv_warm
+
 def setup():
     size(w, h)
     
@@ -23,7 +35,7 @@ def setup():
     # Take advantage of resolution
     pixelDensity(2)
     
-    start_x = random(w/10, w - w/10)
+    start_x = random(w/2, w - w/2)
     start_y = random(h-h/12, h-h/13)
      # Draw Shadow
     noStroke()
@@ -76,7 +88,6 @@ def setup():
         # Random color out of color scheme + increase alpha
         col = color_palette[randint(0, len(color_palette)-1)]
         rgb = tuple(int(col.lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
-        print(rgb)
         fill(rgb[0], rgb[1], rgb[2], col_alpha)
         circle(center_x, center_y, cs)
         drawn += 1

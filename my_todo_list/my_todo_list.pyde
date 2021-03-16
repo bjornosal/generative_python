@@ -1,10 +1,10 @@
 from random import randint
 import time 
-width = 6000
-height =  8000
+width = 800
+height =  600
 
-square_size = 260
-margin = 20
+square_size = 26
+margin = 2
 
 passpartout = square_size*2
 max_width = width-passpartout
@@ -23,9 +23,20 @@ color_palette_8 = ["#f1e8b8","#f9e784","#77B6EA","#EFB9CB", "#BCD0B40"]
 #color_palette_9 = ["#EAF0CE", "#C0C5C1","#083D77" ]
 color_palette_9 = ["#EAF0CE", "#FF934F","#58A4B0" ]
 color_palette_10 = ["#d9e5d6", "#eddea4","#A7CADC","#FFB370"] #https://coolors.co/d9e5d6-00a7e1-eddea4-f7a072-ff9b42
+color_palette_11 = ["#cc7722","#800000","#003300","#002266"]
+roygbiv_warm = [
+      '#705f84',
+      '#687d99',
+      '#6c843e',
+      '#fc9a1a',
+      '#dc383a',
+      #'#aa3a33',
+      '#9c4257'
+    ]
 
-color_palette = color_palette_10
-file_name = "color_palette_10"
+
+color_palette = roygbiv_warm
+file_name = "roygbiv_warm"
 
 def get_absolute_max_for_line(max_amount_on_line):
     if(max_amount_on_line < max_width/square_size): 
@@ -49,7 +60,6 @@ def setup():
     # øk med et tilfeldig antall til siden er fylt
     # start med orden
     # end i kaos
-    # viktig - passpartou på 2 firkanter
 
     
     # max_amount_on_line = (max_width/2)/square_size
@@ -80,12 +90,17 @@ def setup():
         noStroke()
         fill(15, 15, 15, 5)
 
-        strokeWeight(4)
+        strokeWeight(1)
         stroke(30, 30, 30)
         col = color_palette[randint(0, len(color_palette)-1)]
         
         # move grid down to rotate
-        fill(col)
+        #fill(col)
+        
+        #Test with alpha
+        rgb = tuple(int(col.lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
+        fill(rgb[0], rgb[1], rgb[2], 215)
+        
         translate(x, y)
         rotate(radians(random(-max_rotation, max_rotation)))
         square(0, 0, square_size)
