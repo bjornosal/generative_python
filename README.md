@@ -1,16 +1,16 @@
 # Generative Art
 
 
-# My todo List
+# my todo list
 
-How my todo list looks these days
+How my todo list looks
 
 ![My todo list](/my_todo_list/results/roygbiv_warm-1615929421.33.png "Front image todo list")
 
 
-# People
+# people
 
-Abstract of people these days
+Abstract of people
 
 
 ![People](/people/results/1615929500.18.png "Front image people")
