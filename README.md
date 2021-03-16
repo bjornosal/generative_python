@@ -13,4 +13,4 @@ How my todo list looks
 Abstract of people
 
 
-![People](/people/results/1615929500.18.png "Front image people")
+![People](/people/results/1615932086.77.png "Front image people")

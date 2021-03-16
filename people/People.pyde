@@ -1,5 +1,6 @@
 import time 
 from random import randint
+import math
 # Size Parameters
 w, h = 800, 600
 
@@ -73,7 +74,9 @@ def setup():
                 x_loc_end = w-40
                 
             drawn = 0
-            amount_per_line += 1
+            amount_per_line *= 1.3
+            #TODO: set an absolute max maybe?
+            amount_per_line = math.ceil(amount_per_line)
             col_alpha += 15
         
         center_x = random(x_loc_start, x_loc_end)
