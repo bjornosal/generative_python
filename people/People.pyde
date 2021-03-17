@@ -1,20 +1,29 @@
-import time 
 from random import randint
-import math
-# Size Parameters
-w, h = 800, 600
+import time 
+width = 800
+height =  600
 
-# Circle Size
-cs = 40
+circle_size = 26
+margin = 2
 
+passpartout = circle_size*2
+max_width = width-passpartout
+max_height = height-passpartout
 
-
-
-#bottom = 1 - no color
-# more color /grading as you move away from starting circle
-# More circles as you get further away
-color_palette_9 = ["#EAF0CE", "#FF934F", "#58A4B0" ]
-color_palette_old_image = ["#cc7722","#800000","#03300","#002266"]
+color_palette_joggen = ["#A3A798", "#C9C0AF", "#C2B08C"]
+#["#898F80", "#D2BEA9","#C2B08C"]
+color_palette_1 = ["#fffffa","#0d5c63","#44a1a0","#78cdd7","#247b7b"] #https://coolors.co/fffffa-0d5c63-44a1a0-78cdd7-247b7b 
+color_palette_2 = ["#51a3a3","#75485e","#cb904d","#dfcc74","#c3e991"] #https://coolors.co/51a3a3-75485e-cb904d-dfcc74-c3e991
+color_palette_3 = ["#d9e5d6","#00a7e1","#eddea4","#f7a072","#ff9b42"] #https://coolors.co/d9e5d6-00a7e1-eddea4-f7a072-ff9b42
+color_palette_4 = ["#ffadad","#ffd6a5","#fdffb6","#caffbf","#9bf6ff","#a0c4ff","#bdb2ff","#ffc6ff","#fffffc"] #https://coolors.co/ffadad-ffd6a5-fdffb6-caffbf-9bf6ff-a0c4ff-bdb2ff-ffc6ff-fffffc
+color_palette_5 = ["#f94144","#f3722c","#f8961e","#f9844a","#f9c74f","#90be6d","#43aa8b","#4d908e","#577590","#277da1"] #https://coolors.co/f94144-f3722c-f8961e-f9844a-f9c74f-90be6d-43aa8b-4d908e-577590-277da1
+color_palette_6 = ["#1a535c","#4ecdc4","#f7fff7","#ff6b6b","#ffe66d"]
+color_palette_7 = ["#ff7eb9", "#ff65a3","#7afcff", "#feff9c", "#fff740"]
+color_palette_8 = ["#f1e8b8","#f9e784","#77B6EA","#EFB9CB", "#BCD0B40"]
+#color_palette_9 = ["#EAF0CE", "#C0C5C1","#083D77" ]
+color_palette_9 = ["#EAF0CE", "#FF934F","#58A4B0" ]
+color_palette_10 = ["#d9e5d6", "#eddea4","#A7CADC","#FFB370"] #https://coolors.co/d9e5d6-00a7e1-eddea4-f7a072-ff9b42
+color_palette_11 = ["#cc7722","#800000","#003300","#002266"]
 roygbiv_warm = [
       '#705f84',
       '#687d99',
@@ -25,77 +34,68 @@ roygbiv_warm = [
       '#9c4257'
     ]
 
+
 color_palette = roygbiv_warm
+file_name = "roygbiv_warm"
+
+def get_absolute_max_for_line(max_amount_on_line):
+    if(max_amount_on_line < max_width/circle_size): 
+        return max_amount_on_line
+    else: 
+        return max_width/circle_size
+    
+def get_start_position(max_amount_on_line): 
+    return ((max_width - (max_amount_on_line*circle_size)) - ((max_width - (max_amount_on_line*circle_size))/2)) + (circle_size)
 
 def setup():
-    size(w, h)
+    size(width, height)
     
     #background(30, 30, 30)
     background(255, 255, 255)
     
-    # Take advantage of resolution
     pixelDensity(2)
-    
-    start_x = random(w/2, w - w/2)
-    start_y = random(h-h/12, h-h/13)
-     # Draw Shadow
-    noStroke()
-    fill(15, 15, 15, 5)
-    # Draw Circle
-    stroke(30, 30, 30)
 
-    fill(0,0,0,20)
-    circle(start_x, start_y, cs)
-    
-    y_loc_start = h-h/6
-    y_loc_end = h-h/7
-    x_loc_start = w/2-cs
-    x_loc_end = w/2+cs
-    
-    amount_per_line = 1
-    amount_to_add = 6
-    drawn = 0
-    col_alpha = 20
-    # doble antall per 'linje'
-    # fjerne 1/2 sirkel-størrelse per linje
-    
-    while(y_loc_end > 100): 
-        print(y_loc_end)
-        if(drawn == amount_per_line): 
-            y_loc_start -= cs   
-            y_loc_end -= cs
-            
-            x_loc_start -= cs
-            x_loc_end += cs
-            
-            if(x_loc_start < 40): 
-                x_loc_start = 40
-                
-            if(x_loc_end > w-40): 
-                x_loc_end = w-40
-                
-            drawn = 0
-            amount_per_line += max(amount_to_add, 1)
-            amount_to_add -= 1
-            #TODO: set an absolute max maybe?
-            amount_per_line = math.ceil(amount_per_line)
-            col_alpha += 15
-        
-        center_x = random(x_loc_start, x_loc_end)
-        center_y = random(y_loc_start, y_loc_end)
-        
+
+    max_amount_on_line = 1
+    amount_on_line = 0
+    alpha_level = 0
+    x = get_start_position(max_amount_on_line)
+    y = height - passpartout
+    max_rotation = 0
+    x_margin = 5
+    y_margin = -5
+    #Calculate these instead
+    cs = circle_size
+    while(y > 0):
+        if(amount_on_line >= max_amount_on_line):
+            amount_on_line = 0
+            increase_by_amount = randint(1, 2)
+            max_amount_on_line = max_amount_on_line + randint(1,2)
+            x = get_start_position(max_amount_on_line)
+            y -= circle_size - y_margin
+            alpha_level += 10
+            x_margin += 4
+            y_margin -= 6
+            cs += 4
+                        
+        amount_on_line += 1
+        pushMatrix();
         # Draw Shadow
         noStroke()
         fill(15, 15, 15, 5)
 
-        # Draw Circle
+        strokeWeight(1)
         stroke(30, 30, 30)
-        # Random color out of color scheme + increase alpha
         col = color_palette[randint(0, len(color_palette)-1)]
+
         rgb = tuple(int(col.lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
-        fill(rgb[0], rgb[1], rgb[2], col_alpha)
-        circle(center_x, center_y, cs)
-        drawn += 1
+        fill(rgb[0], rgb[1], rgb[2], alpha_level)
         
-    seed = time.time()    
-    save("results/" + str(seed) + ".png")
+        translate(x, y)
+        circle(0, 0, cs)
+        popMatrix();
+        x = x + circle_size + x_margin
+
+        
+    
+    save("results/"+file_name+"-" + str(time.time()) + ".png")
