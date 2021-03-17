@@ -53,6 +53,7 @@ def setup():
     x_loc_end = w/2+cs
     
     amount_per_line = 1
+    amount_to_add = 6
     drawn = 0
     col_alpha = 20
     # doble antall per 'linje'
@@ -74,7 +75,8 @@ def setup():
                 x_loc_end = w-40
                 
             drawn = 0
-            amount_per_line *= 1.3
+            amount_per_line += max(amount_to_add, 1)
+            amount_to_add -= 1
             #TODO: set an absolute max maybe?
             amount_per_line = math.ceil(amount_per_line)
             col_alpha += 15
