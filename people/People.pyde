@@ -1,10 +1,11 @@
 from random import randint
+import math
 import time 
-width = 800
-height =  600
+width = 12000
+height =  9000
 
-circle_size = 26
-margin = 2
+circle_size = math.floor(height/23)
+margin = math.floor(height/13)
 
 passpartout = circle_size*2
 max_width = width-passpartout
@@ -44,8 +45,6 @@ def get_absolute_max_for_line(max_amount_on_line):
     else: 
         return max_width/circle_size
     
-def get_start_position(max_amount_on_line): 
-    return ((max_width - (max_amount_on_line*circle_size)) - ((max_width - (max_amount_on_line*circle_size))/2)) + (circle_size)
 
 def setup():
     size(width, height)
@@ -58,25 +57,28 @@ def setup():
 
     max_amount_on_line = 1
     amount_on_line = 0
-    alpha_level = 0
-    x = get_start_position(max_amount_on_line)
+    alpha_level = 10
+    x_margin = (height/120)
+    y_margin = -(height/100)
+    x = width/2 - (max_amount_on_line * (circle_size ))/2
     y = height - passpartout
     max_rotation = 0
-    x_margin = 5
-    y_margin = -5
+
     #Calculate these instead
     cs = circle_size
-    while(y > 0):
+    while(y > height-height-cs):
+        #Y tilfeldig innen ramme
         if(amount_on_line >= max_amount_on_line):
             amount_on_line = 0
             increase_by_amount = randint(1, 2)
             max_amount_on_line = max_amount_on_line + randint(1,2)
-            x = get_start_position(max_amount_on_line)
+            x = width/2 - (max_amount_on_line * (circle_size + x_margin))/2
             y -= circle_size - y_margin
             alpha_level += 10
-            x_margin += 4
-            y_margin -= 6
-            cs += 4
+            x_margin += (width/200)
+            if(max_amount_on_line < 4):
+                y_margin -= (height/120)
+            cs += (width/200)
                         
         amount_on_line += 1
         pushMatrix();
@@ -84,14 +86,17 @@ def setup():
         noStroke()
         fill(15, 15, 15, 5)
 
-        strokeWeight(1)
+        strokeWeight(10)
         stroke(30, 30, 30)
         col = color_palette[randint(0, len(color_palette)-1)]
 
         rgb = tuple(int(col.lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
         fill(rgb[0], rgb[1], rgb[2], alpha_level)
-        
-        translate(x, y)
+        if(max_amount_on_line > 7):
+            translate(x, randint(y-(height/60),y+(height/60)))
+        else: 
+            translate(x, y)
+            
         circle(0, 0, cs)
         popMatrix();
         x = x + circle_size + x_margin

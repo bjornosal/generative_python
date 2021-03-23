@@ -1,10 +1,11 @@
 from random import randint
+import math
 import time 
-width = 800
-height =  600
+width = 12000
+height =  9000
 
-square_size = 26
-margin = 2
+square_size = math.floor(height/26)
+margin = math.floor(height/300)
 
 passpartout = square_size*2
 max_width = width-passpartout
@@ -55,12 +56,6 @@ def setup():
     
     # Take advantage of resolution
     pixelDensity(2)
-
-    # start med halve
-    # øk med et tilfeldig antall til siden er fylt
-    # start med orden
-    # end i kaos
-
     
     # max_amount_on_line = (max_width/2)/square_size
     max_amount_on_line = 2
@@ -90,7 +85,7 @@ def setup():
         noStroke()
         fill(15, 15, 15, 5)
 
-        strokeWeight(1)
+        strokeWeight(10)
         stroke(30, 30, 30)
         col = color_palette[randint(0, len(color_palette)-1)]
         
