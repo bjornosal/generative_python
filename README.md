@@ -1,5 +1,6 @@
 # Generative Art
 
+Generative art using python with [processing](https://www.processing.org/) 
 
 # my todo list
 
